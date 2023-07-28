@@ -14,6 +14,7 @@ import reactor.core.publisher.Mono;
 public class TacoService {
     private final OrderRepo orderRepo;
     private final AddressRepo addressRepo;
+    private final AddressService addressService;
 
     public Flux<Order> findAll() {
         return orderRepo.findAll();
@@ -21,7 +22,7 @@ public class TacoService {
 
     public Mono<Order> persistOrder(com.falcontech.tacoorder.model.dto.Order orderDto) {
         var order = orderDto.toMongoOrder();
-        return Mono.just(order).flatMap(order1 -> addressRepo.save(order1.getAddress()).flatMap(address -> {
+        return Mono.just(order).flatMap(order1 -> addressService.persistAddress(order1.getAddress()).flatMap(address -> {
             order1.setAddress(address);
             return orderRepo.save(order1);
         }));
