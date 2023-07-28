@@ -13,17 +13,21 @@ import static org.springframework.web.reactive.function.server.ServerResponse.ok
 @Component
 @RequiredArgsConstructor
 public class OrderHandler {
-    private final TacoService tacoService;
-    public Mono<ServerResponse> getOrder(ServerRequest request) {
-        return ok().build();
-    }
+  private final TacoService tacoService;
 
-    public Mono<ServerResponse> getOrders(ServerRequest request) {
-        var all = tacoService.findAll();
-        return ok().body(all, Order.class);
-    }
+  public Mono<ServerResponse> getOrder(ServerRequest request) {
+    return ok().build();
+  }
 
-    public Mono<ServerResponse> createOrder(ServerRequest request) {
-        return ok().build();
-    }
+  public Mono<ServerResponse> getOrders(ServerRequest request) {
+    var all = tacoService.findAll();
+    return ok().body(all, Order.class);
+  }
+
+  public Mono<ServerResponse> createOrder(ServerRequest request) {
+    return request
+        .bodyToMono(com.falcontech.tacoorder.model.dto.Order.class)
+        .flatMap(tacoService::persistOrder)
+        .flatMap(c -> ok().body(Mono.just(c), Order.class));
+  }
 }

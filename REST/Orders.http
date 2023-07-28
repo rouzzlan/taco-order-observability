@@ -6,3 +6,18 @@ GET http://localhost:9010/order
 GET http://localhost:9004/order/{{id}}
 
 ###
+
+POST http://localhost:9010/order
+Content-Type: application/json
+
+{
+  "name": "myOrder",
+  "email": "me@home.com",
+  "address": {
+    "street": "Kerkstraat 123",
+    "city": "Hoboken",
+    "zip": "1929",
+    "state": "Antwerp",
+    "country": "BE"
+  }
+}

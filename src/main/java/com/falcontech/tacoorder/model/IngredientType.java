@@ -1,4 +1,4 @@
-package com.falcontech.tacoorder.model.mongo;
+package com.falcontech.tacoorder.model;
 
 import lombok.Getter;
 

@@ -1,5 +1,6 @@
 package com.falcontech.tacoorder.model.mongo;
 
+import com.falcontech.tacoorder.model.IngredientType;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.springframework.data.mongodb.core.index.Indexed;
