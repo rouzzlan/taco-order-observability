@@ -1,5 +1,6 @@
 package com.falcontech.tacoorder.handler;
 
+import com.falcontech.tacoorder.model.dto.OrderR;
 import com.falcontech.tacoorder.model.mongo.Order;
 import com.falcontech.tacoorder.service.TacoService;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,9 @@ public class OrderHandler {
   private final TacoService tacoService;
 
   public Mono<ServerResponse> getOrder(ServerRequest request) {
-    return ok().build();
+    var id = request.pathVariable("id");
+    var order = tacoService.findByID(id);
+    return ok().body(order, OrderR.class);
   }
 
   public Mono<ServerResponse> getOrders(ServerRequest request) {

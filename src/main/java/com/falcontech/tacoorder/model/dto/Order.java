@@ -15,8 +15,6 @@ public class Order {
 
   @Valid Address address;
 
-  private UUID uuid;
-
   public com.falcontech.tacoorder.model.mongo.Order toMongoOrder() {
     var mongoOrder = new com.falcontech.tacoorder.model.mongo.Order();
     mongoOrder.setUuid(UUID.randomUUID());
