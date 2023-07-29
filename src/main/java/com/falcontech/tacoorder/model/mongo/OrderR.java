@@ -3,6 +3,8 @@ package com.falcontech.tacoorder.model.mongo;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.mongodb.core.mapping.FieldType;
 
 import java.util.UUID;
 
@@ -14,6 +16,7 @@ public class OrderR {
     private UUID uuid;
     private String name;
     private String email;
+    @Field(targetType = FieldType.OBJECT_ID)
     private String address;
 
     public com.falcontech.tacoorder.model.dto.OrderR toDTO() {
