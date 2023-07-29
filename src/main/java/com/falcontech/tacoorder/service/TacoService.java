@@ -28,15 +28,6 @@ public class TacoService {
     });
   }
 
-//  public Mono<OrderR> findByID(String id) {
-//    return orderRepo.findById(id).flatMap(order -> {
-//      return addressRepo.findById(order.getAddress().getId()).flatMap(address -> {
-//        order.setAddress(address);
-//        return Mono.just(order.toDTO());
-//      });
-//    });
-//  }
-
   public Mono<OrderR> findByID(String id) {
     return orderRRepo.findById(id).flatMap(order -> {
       return addressRepo.findById(order.getAddress()).flatMap(address -> {
@@ -47,17 +38,18 @@ public class TacoService {
     });
   }
 
-  public Mono<Order> persistOrder(com.falcontech.tacoorder.model.dto.Order orderDto) {
-    var order = orderDto.toMongoOrder();
+  public Mono<com.falcontech.tacoorder.model.mongo.OrderR> persistOrder(com.falcontech.tacoorder.model.dto.OrderR orderDto) {
+    var order = orderDto;
     return Mono.just(order)
         .flatMap(
             order1 ->
                 addressService
-                    .persistAddress(order1.getAddress())
+                    .persistAddress(order1.getAddress().toMongoAddress())
                     .flatMap(
                         address -> {
-                          order1.setAddress(address);
-                          return orderRepo.save(order1);
+                          var o = order.toMongoOrder();
+                          o.setAddress(address.getId());
+                          return orderRRepo.save(o);
                         }));
     //        return orderRepo.save(order);
   }

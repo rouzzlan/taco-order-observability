@@ -29,7 +29,7 @@ public class OrderHandler {
 
   public Mono<ServerResponse> createOrder(ServerRequest request) {
     return request
-        .bodyToMono(com.falcontech.tacoorder.model.dto.Order.class)
+        .bodyToMono(com.falcontech.tacoorder.model.dto.OrderR.class)
         .flatMap(tacoService::persistOrder)
         .flatMap(c -> ok().body(Mono.just(c), Order.class));
   }
