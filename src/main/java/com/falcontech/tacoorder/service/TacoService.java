@@ -1,8 +1,8 @@
 package com.falcontech.tacoorder.service;
 
-import com.falcontech.tacoorder.model.dto.OrderR;
+import com.falcontech.tacoorder.model.dto.Order;
 import com.falcontech.tacoorder.repo.AddressRepo;
-import com.falcontech.tacoorder.repo.OrderRRepo;
+import com.falcontech.tacoorder.repo.OrderRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -13,10 +13,10 @@ import reactor.core.publisher.Mono;
 public class TacoService {
   private final AddressRepo addressRepo;
   private final AddressService addressService;
-  private final OrderRRepo orderRRepo;
+  private final OrderRepo orderRepo;
 
-  public Flux<OrderR> findAll() {
-    return orderRRepo.findAll().flatMap(order -> {
+  public Flux<Order> findAll() {
+    return orderRepo.findAll().flatMap(order -> {
       return addressRepo.findById(order.getAddress()).flatMap(address -> {
         var dto = order.toDTO();
         dto.setAddress(address.toDTO());
@@ -25,8 +25,8 @@ public class TacoService {
     });
   }
 
-  public Mono<OrderR> findByID(String id) {
-    return orderRRepo.findById(id).flatMap(order -> {
+  public Mono<Order> findByID(String id) {
+    return orderRepo.findById(id).flatMap(order -> {
       return addressRepo.findById(order.getAddress()).flatMap(address -> {
         var dto = order.toDTO();
         dto.setAddress(address.toDTO());
@@ -35,7 +35,7 @@ public class TacoService {
     });
   }
 
-  public Mono<com.falcontech.tacoorder.model.mongo.OrderR> persistOrder(com.falcontech.tacoorder.model.dto.OrderR orderDto) {
+  public Mono<com.falcontech.tacoorder.model.mongo.Order> persistOrder(Order orderDto) {
     var order = orderDto;
     return Mono.just(order)
         .flatMap(
@@ -46,7 +46,7 @@ public class TacoService {
                         address -> {
                           var o = order.toMongoOrder();
                           o.setAddress(address.getId());
-                          return orderRRepo.save(o);
+                          return orderRepo.save(o);
                         }));
     //        return orderRepo.save(order);
   }

@@ -10,7 +10,7 @@ import java.util.UUID;
 
 @Data
 @Document("Order")
-public class OrderR {
+public class Order {
     @Id
     private String id;
     private UUID uuid;
@@ -19,8 +19,8 @@ public class OrderR {
     @Field(targetType = FieldType.OBJECT_ID)
     private String address;
 
-    public com.falcontech.tacoorder.model.dto.OrderR toDTO() {
-        var dto = new com.falcontech.tacoorder.model.dto.OrderR();
+    public com.falcontech.tacoorder.model.dto.Order toDTO() {
+        var dto = new com.falcontech.tacoorder.model.dto.Order();
         dto.setId(this.id);
         dto.setName(this.name);
         dto.setUUID(this.uuid.toString());

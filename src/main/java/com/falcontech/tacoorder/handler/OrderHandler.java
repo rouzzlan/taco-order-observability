@@ -1,6 +1,6 @@
 package com.falcontech.tacoorder.handler;
 
-import com.falcontech.tacoorder.model.dto.OrderR;
+import com.falcontech.tacoorder.model.dto.Order;
 import com.falcontech.tacoorder.service.TacoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -18,18 +18,18 @@ public class OrderHandler {
   public Mono<ServerResponse> getOrder(ServerRequest request) {
     var id = request.pathVariable("id");
     var order = tacoService.findByID(id);
-    return ok().body(order, OrderR.class);
+    return ok().body(order, Order.class);
   }
 
   public Mono<ServerResponse> getOrders(ServerRequest request) {
     var all = tacoService.findAll();
-    return ok().body(all, OrderR.class);
+    return ok().body(all, Order.class);
   }
 
   public Mono<ServerResponse> createOrder(ServerRequest request) {
     return request
-        .bodyToMono(com.falcontech.tacoorder.model.dto.OrderR.class)
+        .bodyToMono(Order.class)
         .flatMap(tacoService::persistOrder)
-        .flatMap(c -> ok().body(Mono.just(c), OrderR.class));
+        .flatMap(c -> ok().body(Mono.just(c), Order.class));
   }
 }

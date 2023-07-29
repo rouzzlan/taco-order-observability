@@ -1,12 +1,9 @@
 package com.falcontech.tacoorder.model.mongo;
 
 import lombok.Data;
-import lombok.experimental.Accessors;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.FieldType;
-import org.springframework.data.mongodb.core.mapping.MongoId;
 
 @Data
 @Document("TacoOrderAddress")
@@ -21,8 +18,8 @@ public class Address {
     @Indexed
     private String hash;
 
-    public com.falcontech.tacoorder.model.dto.AddressR toDTO() {
-        var dto = new com.falcontech.tacoorder.model.dto.AddressR();
+    public com.falcontech.tacoorder.model.dto.Address toDTO() {
+        var dto = new com.falcontech.tacoorder.model.dto.Address();
         dto.setId(this.id);
         dto.setHash(this.hash);
         dto.setStreet(this.street);

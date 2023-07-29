@@ -11,7 +11,7 @@ POST http://localhost:9010/order
 Content-Type: application/json
 
 {
-  "name": "myOrder4",
+  "name": "myOrder44",
   "email": "me@home.com",
   "address": {
     "street": "Kerkstraat 123",
