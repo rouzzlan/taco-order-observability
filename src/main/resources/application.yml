@@ -7,8 +7,6 @@ spring:
     mongodb:
       host: ${DB_HOST:localhost}
       port: ${DB_PORT:27017}
-      username: ${DB_USR:root}
-      password: ${DB_PASSWD:secret}
       database: ${DB_NAME:TacoDB}
       auto-index-creation: true
 server:

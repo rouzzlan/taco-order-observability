@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+
+  taco-db:
+    image: mongo:6.0
+    container_name: taco-db
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_DATABASE=TacoDB
+    networks:
+      - taco-testnet
+
+  mongo-express:
+    image: mongo-express
+    ports:
+      - "8081:8081"
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=taco-db
+      - ME_CONFIG_MONGODB_PORT=27017
+    depends_on:
+      - taco-db
+    networks:
+      - taco-testnet
+
+networks:
+  taco-testnet:
+    external: true

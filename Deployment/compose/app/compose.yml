@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  web-app:
+    container_name: taco-order-service
+    image: harbour.739.net/library/taco-order:0.0.1-SNAPSHOT
+    ports:
+      - '9010:9010'
+    environment:
+      - DB_HOST=taco-db
+    networks:
+      - taco-testnet
+
+networks:
+  taco-testnet:
+    external: true
