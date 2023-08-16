@@ -16,23 +16,33 @@ public class TacoService {
   private final OrderRepo orderRepo;
 
   public Flux<Order> findAll() {
-    return orderRepo.findAll().flatMap(order -> {
-      return addressRepo.findById(order.getAddress()).flatMap(address -> {
-        var dto = order.toDTO();
-        dto.setAddress(address.toDTO());
-        return Mono.just(dto);
-      });
-    });
+    return orderRepo
+        .findAll()
+        .flatMap(
+            order ->
+                addressRepo
+                    .findById(order.getAddress())
+                    .flatMap(
+                        address -> {
+                          var dto = order.toDTO();
+                          dto.setAddress(address.toDTO());
+                          return Mono.just(dto);
+                        }));
   }
 
   public Mono<Order> findByID(String id) {
-    return orderRepo.findById(id).flatMap(order -> {
-      return addressRepo.findById(order.getAddress()).flatMap(address -> {
-        var dto = order.toDTO();
-        dto.setAddress(address.toDTO());
-        return Mono.just(dto);
-      });
-    });
+    return orderRepo
+        .findById(id)
+        .flatMap(
+            order ->
+                addressRepo
+                    .findById(order.getAddress())
+                    .flatMap(
+                        address -> {
+                          var dto = order.toDTO();
+                          dto.setAddress(address.toDTO());
+                          return Mono.just(dto);
+                        }));
   }
 
   public Mono<com.falcontech.tacoorder.model.mongo.Order> persistOrder(Order orderDto) {
@@ -48,6 +58,5 @@ public class TacoService {
                           o.setAddress(address.getId());
                           return orderRepo.save(o);
                         }));
-    //        return orderRepo.save(order);
   }
 }

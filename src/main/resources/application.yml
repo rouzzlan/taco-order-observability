@@ -1,0 +1,13 @@
+spring:
+  devtools:
+    add-properties: false
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      username: root
+      password: secret
+      database: TacoDB
+      auto-index-creation: true
+server:
+  port: 9010
