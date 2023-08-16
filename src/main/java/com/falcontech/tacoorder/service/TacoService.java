@@ -46,15 +46,14 @@ public class TacoService {
   }
 
   public Mono<com.falcontech.tacoorder.model.mongo.Order> persistOrder(Order orderDto) {
-    var order = orderDto;
-    return Mono.just(order)
+      return Mono.just(orderDto)
         .flatMap(
             order1 ->
                 addressService
                     .persistAddress(order1.getAddress().toMongoAddress())
                     .flatMap(
                         address -> {
-                          var o = order.toMongoOrder();
+                          var o = orderDto.toMongoOrder();
                           o.setAddress(address.getId());
                           return orderRepo.save(o);
                         }));
