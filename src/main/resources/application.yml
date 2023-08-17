@@ -11,12 +11,16 @@ spring:
       auto-index-creation: true
 server:
   port: ${APP_PORT:9010}
+  netty:
+    connection-timeout: 2s
+    idle-timeout: 15s
+  shutdown: graceful
 
 management:
   endpoints:
     web:
       exposure:
-        include: env, health, heapdump, info, loggers, mappings
+        include: env, health, info, prometheus
   endpoint:
     health:
       show-details: always

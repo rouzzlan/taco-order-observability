@@ -3,7 +3,7 @@ version: "3.8"
 services:
   web-app:
     container_name: taco-order-service
-    image: harbour.739.net/library/taco-order:0.0.1-SNAPSHOT
+    image: harbour.739.net/library/taco-order:0.0.1
     depends_on:
       - fluent-bit
     ports:
@@ -23,6 +23,7 @@ services:
     container_name: grafana
     depends_on:
       - loki
+      - prometheus
     ports:
       - "3000:3000"
     environment:
@@ -32,6 +33,8 @@ services:
       - ./observability/grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
       - ./observability/grafana/dashboards:/etc/grafana/provisioning/dashboards
       - ./observability/grafana/grafana.ini:/etc/grafana/grafana.ini
+    networks:
+      - taco-testnet
 
   loki:
     image: grafana/loki:2.6.1
@@ -40,6 +43,8 @@ services:
       - fluent-bit
     ports:
       - "3100:3100"
+    networks:
+      - taco-testnet
 
   fluent-bit:
     image: grafana/fluent-bit-plugin-loki:2.6.1-amd64
@@ -50,6 +55,19 @@ services:
       - LOKI_URL=http://loki:3100/loki/api/v1/push
     volumes:
       - ./observability/fluent-bit/fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf
+    networks:
+      - taco-testnet
+
+  prometheus:
+    image: prom/prometheus:v2.38.0
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./observability/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - taco-testnet
+
 networks:
   taco-testnet:
     external: true
